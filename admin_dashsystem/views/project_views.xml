@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="edit_project_inherit_social" model="ir.ui.view">
+        <field name="name">project.project.form.inherit.social</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='settings']" position="before">
+                <page string="Social Impact">
+                    <group>
+                        <group string="Project Details">
+                            <field name="organization_id"/>
+                            <field name="sdg_tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="location"/>
+                        </group>
+                        <group string="Requirements">
+                            <field name="volunteer_required"/>
+                            <field name="volunteer_count_needed" invisible="volunteer_required == False"/>
+
+                            <field name="fund_required"/>
+                            <field name="fund_amount_needed" invisible="fund_required == False"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Activities &amp; Description">
+                        <field name="description" placeholder="Describe the social activities..."/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_project_project_list_inherit_social" model="ir.ui.view">
+        <field name="name">project.project.list.inherit.social</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project"/>
+        <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="sdg_tag_ids" widget="many2many_tags" optional="show"/>
+                <field name="approval_status" widget="badge"
+                       decoration-success="approval_status == 'approved'"
+                       decoration-info="approval_status == 'pending'"
+                       decoration-danger="approval_status == 'rejected'"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="view_project_kanban_inherit_social" model="ir.ui.view">
+        <field name="name">project.project.kanban.inherit.social</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tag_ids']" position="after">
+                <div class="mt-2 d-flex align-items-center">
+                    <field name="approval_status" widget="badge"
+                           decoration-success="approval_status == 'approved'"
+                           decoration-info="approval_status == 'pending'"
+                           decoration-danger="approval_status == 'rejected'"/>
+
+                    <span class="ms-2 text-muted small" invisible="not sdg_tag_ids">
+                        <i class="fa fa-globe" title="SDG Goal"></i>
+                        <field name="sdg_tag_ids" widget="many2many_tags"/>
+                    </span>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_social_project_search_FIXED" model="ir.ui.view">
+        <field name="name">social.project.search.fixed</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_project_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="organization_id"/>
+                <field name="sdg_tag_ids"/>
+                <filter string="Social Projects" name="social_projects" domain="[('sdg_tag_ids', '!=', False)]"/>
+                <separator/>
+                <filter string="Pending Approval" name="pending_approvals" domain="[('approval_status', '=', 'pending')]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_social_admin_projects" model="ir.actions.act_window">
+        <field name="name">Social Projects</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="view_social_project_search_FIXED"/>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Social Project
+            </p>
+        </field>
+    </record>
+
+    <record id="action_social_pending_projects" model="ir.actions.act_window">
+        <field name="name">Projects Awaiting Approval</field>
+        <field name="res_model">project.project</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="search_view_id" ref="view_social_project_search_FIXED"/>
+        <field name="context">{'search_default_pending_approvals': 1}</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="testimonial_form_template" name="Submit Testimonial">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure bg-light">
+                <section class="py-5">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-md-8">
+                                <div class="card shadow-sm border-0 rounded-4 p-5">
+                                    <div class="text-center mb-4">
+                                        <h2 class="fw-bold text-primary">Share Your Experience</h2>
+                                        <p class="text-muted">We would love to hear your story. Please fill out the mandatory fields below.</p>
+                                    </div>
+
+                                    <form action="/testimonial/save" method="post" enctype="multipart/form-data">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                        <div class="row g-3">
+                                            <div class="col-md-12 mb-3">
+                                                <label class="fw-bold mb-1">Contact Person <span class="text-danger">*</span></label>
+                                                <input type="text" name="contact_person" class="form-control form-control-lg" required="required" placeholder="e.g. John Doe"/>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="fw-bold mb-1">Email <span class="text-danger">*</span></label>
+                                                <input type="email" name="email" class="form-control form-control-lg" required="required" placeholder="name@example.com"/>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="fw-bold mb-1">Phone <span class="text-danger">*</span></label>
+                                                <input type="tel" name="phone" class="form-control form-control-lg" required="required" placeholder="+1 234 567 890"/>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="fw-bold mb-1">Category <span class="text-danger">*</span></label>
+                                                <select name="category" class="form-select form-select-lg" required="required">
+                                                    <option value="" disabled="1" selected="1">Select a category...</option>
+                                                    <option value="student">Student</option>
+                                                    <option value="professional">Professional</option>
+                                                    <option value="ngo">NGO / Organization</option>
+                                                    <option value="donor">Donor</option>
+                                                    <option value="volunteer">Volunteer</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                <label class="fw-bold mb-1">Date <span class="text-danger">*</span></label>
+                                                <input type="date" name="date" class="form-control form-control-lg" required="required"/>
+                                            </div>
+
+                                            <div class="col-12 mb-3">
+                                                <label class="fw-bold mb-1">Your Testimony / Description <span class="text-danger">*</span></label>
+                                                <textarea name="description" class="form-control form-control-lg" rows="5" required="required" placeholder="Tell us about your experience..."></textarea>
+                                            </div>
+
+                                            <div class="col-12 mb-4">
+                                                <label class="fw-bold mb-1">Upload Picture or Video <span class="text-danger">*</span></label>
+                                                <input type="file" name="media_file" class="form-control form-control-lg" required="required" accept="image/*,video/*"/>
+                                                <small class="text-muted">Max file size: 25MB.</small>
+                                            </div>
+
+                                            <div class="col-12 text-center mt-3">
+                                                <button type="submit" class="btn btn-primary btn-lg rounded-pill px-5 fw-bold shadow">
+                                                    <i class="fa fa-paper-plane me-2"/> Submit Testimony
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </t>
+    </template>
+</odoo>

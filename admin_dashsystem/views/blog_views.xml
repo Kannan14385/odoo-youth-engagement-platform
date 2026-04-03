@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_blog_post_form_inherit_social" model="ir.ui.view">
+        <field name="name">blog.post.form.inherit.social</field>
+        <field name="model">blog.post</field>
+        <field name="inherit_id" ref="website_blog.view_blog_post_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet" position="inside">
+
+                <group string="Social Publishing Details" style="background-color: #f0f4f7; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+                    <group>
+                        <field name="custom_publish_date"/>
+                        <field name="author_id"/>
+                        <field name="blog_id" string="Blog Category"/>
+                    </group>
+                    <group>
+                        <field name="thematic_area_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        <field name="target_audience"/>
+                        <field name="reading_time"/>
+                    </group>
+                </group>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

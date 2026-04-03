@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="admin_system.HomeSystray" owl="1">
+        <div class="o_nav_entry" t-on-click="_onClick" style="cursor: pointer; display: flex; align-items: center; padding: 0 12px;" title="Go to Dashboard">
+            <i class="fa fa-home fa-lg text-white" style="font-size: 1.5rem;"></i>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_social_dashboard_client" model="ir.actions.client">
+        <field name="name">Social Dashboard</field>
+        <field name="tag">social_dashboard_client_action</field>
+    </record>
+
+    <record id="action_social_fund" model="ir.actions.act_window">
+        <field name="name">Funds</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('move_type', 'in', ('out_invoice', 'out_receipt'))]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+    </record>
+
+    <menuitem id="menu_admin_root"
+              name="Admin Management System"
+              web_icon="admin_dashsystem,static/description/icon.png"
+              action="action_social_dashboard_client"
+              groups="base.group_system"/>
+
+    <menuitem id="menu_dashboard"
+              name="Dashboard"
+              parent="menu_admin_root"
+              sequence="1"
+              action="action_social_dashboard_client"/>
+
+    <menuitem id="menu_users_root"
+              name="Users"
+              parent="menu_admin_root"
+              sequence="2"/>
+
+        <menuitem id="menu_users_student"
+                  name="Youth / Student"
+                  parent="menu_users_root"
+                  sequence="1"
+                  action="action_users_student"/>
+
+        <menuitem id="menu_users_professional"
+                  name="Professional"
+                  parent="menu_users_root"
+                  sequence="2"
+                  action="action_users_professional"/>
+
+        <menuitem id="menu_users_ngo"
+                  name="NGO"
+                  parent="menu_users_root"
+                  sequence="3"
+                  action="action_users_ngo"/>
+
+        <menuitem id="menu_users_donor"
+                  name="Donor"
+                  parent="menu_users_root"
+                  sequence="4"
+                  action="action_users_donor"/>
+
+        <menuitem id="menu_users_csr"
+                  name="CSR / Corporate"
+                  parent="menu_users_root"
+                  sequence="5"
+                  action="action_users_csr"/>
+
+        <menuitem id="menu_users_admin"
+                  name="Admin"
+                  parent="menu_users_root"
+                  sequence="6"
+                  action="action_users_admin"/>
+
+        <menuitem id="menu_users_all"
+                  name="All Users"
+                  parent="menu_users_root"
+                  sequence="10"
+                  action="base.action_res_users"/>
+
+    <menuitem id="menu_projects" name="Projects" parent="menu_admin_root" sequence="3" action="project.open_view_project_all"/>
+    <menuitem id="menu_events" name="Events" parent="menu_admin_root" sequence="4" action="event.action_event_view"/>
+
+    <menuitem id="menu_social_funds"
+              name="Funds"
+              parent="menu_admin_root"
+              sequence="5"
+              action="action_social_fund"/>
+
+    <menuitem id="menu_website" name="Website" parent="menu_admin_root" sequence="6" action="website.action_website_menu"/>
+    <menuitem id="menu_social_blogs" name="Blogs" parent="menu_admin_root" sequence="7" action="website_blog.action_blog_post"/>
+    <menuitem id="menu_opportunities" name="Opportunities" parent="menu_admin_root" sequence="8" action="action_social_opportunity"/>
+    <menuitem id="menu_awards" name="Awards" parent="menu_admin_root" sequence="10" action="action_social_award"/>
+    <menuitem id="menu_content_custom" name="Articles" parent="menu_admin_root" sequence="11" action="action_social_content"/>
+    <menuitem id="menu_social_grants"
+              name="Grants"
+              parent="menu_admin_root"
+              sequence="9"
+              action="action_social_grant"/>
+
+    <menuitem id="menu_social_skill"
+              name="Skill Development"
+              parent="menu_admin_root"
+              sequence="12"
+              action="action_social_skill_training"/>
+</odoo>

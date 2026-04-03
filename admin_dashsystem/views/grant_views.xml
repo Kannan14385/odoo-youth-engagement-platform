@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_social_grant" model="ir.actions.act_window">
+        <field name="name">Grants</field>
+        <field name="res_model">social.grant</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Add a new Grant Opportunity</p>
+        </field>
+    </record>
+
+    <record id="view_social_grant_list" model="ir.ui.view">
+        <field name="name">social.grant.list</field>
+        <field name="model">social.grant</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'open'" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="donor_name"/>
+                <field name="grant_size"/>
+                <field name="deadline"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_social_grant_form" model="ir.ui.view">
+        <field name="name">social.grant.form</field>
+        <field name="model">social.grant</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Grant Title"/>
+                        <h1><field name="name" placeholder="e.g. Community Development Grant"/></h1>
+                        <label for="donor_name" class="oe_edit_only" string="Funding Organization"/>
+                        <h3 class="text-muted"><field name="donor_name" placeholder="e.g. UN Foundation"/></h3>
+                    </div>
+                    <group>
+                        <group string="Grant Details">
+                            <field name="donor_type"/>
+                            <field name="grant_size"/>
+                            <field name="deadline"/>
+                            <field name="location"/>
+                        </group>
+                        <group string="References &amp; Links">
+                            <field name="source_link" widget="url"/>
+                            <field name="ref_id"/>
+                        </group>
+                    </group>
+
+                    <group string="Eligibility &amp; Compliance">
+                        <group>
+                            <field name="applicant_eligibility" placeholder="e.g. NGOs, Section 8"/>
+                            <field name="compliance_req" placeholder="e.g. FCRA, 12A, 80G"/>
+                        </group>
+                        <group>
+                            <field name="thematic_area_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Description &amp; Problem">
+                            <group>
+                                <field name="problem_statement" placeholder="What problem is this grant solving?"/>
+                            </group>
+                        </page>
+                        <page string="Criteria &amp; Documents">
+                            <group>
+                                <field name="eligibility_criteria" placeholder="Detailed eligibility requirements..."/>
+                                <field name="documents_required" placeholder="List of documents needed..."/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

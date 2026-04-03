@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_event_form_inherit_social" model="ir.ui.view">
+        <field name="name">event.event.form.inherit.social</field>
+        <field name="model">event.event</field>
+        <field name="inherit_id" ref="event.view_event_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='event_type_id']" position="attributes">
+                <attribute name="string">Category</attribute>
+                <attribute name="placeholder">Select Category...</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="string">Contact Person Name</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="contact_person_number" placeholder="+91 ..."/>
+            </xpath>
+
+            <xpath expr="//label[@for='seats_limited']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='seats_limited']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='badge_format']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='badge_image']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_end']" position="after">
+                <field name="thematic_area_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="event_price" widget="monetary"/>
+            </xpath>
+
+            <xpath expr="//page[@name='tickets']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//page[@name='questions']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Event Details">
+                    <field name="description" placeholder="Enter full event details here..."/>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

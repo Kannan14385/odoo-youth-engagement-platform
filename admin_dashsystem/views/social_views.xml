@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_users_form_inherit_social" model="ir.ui.view">
+        <field name="name">res.users.form.inherit.social</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//page[@name='access_rights']" position="attributes">
+                <attribute name="invisible">user_role != 'admin'</attribute>
+            </xpath>
+
+            <xpath expr="//header" position="inside">
+                <button name="action_approve_user" string="Approve Account" type="object" class="btn-success"
+                        invisible="approval_status == 'approved'"/>
+                <button name="action_reject_user" string="Reject Account" type="object" class="btn-danger"
+                        invisible="approval_status == 'rejected'"/>
+                <button name="action_reset_user" string="Reset to Draft" type="object"
+                        invisible="approval_status == 'pending'"/>
+                <field name="approval_status" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+            </xpath>
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                 <button name="action_open_employees" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </button>
+            </xpath>
+
+            <xpath expr="//sheet/div[hasclass('oe_title')]" position="before">
+                <div class="alert alert-info text-center" role="alert" invisible="user_role != False">
+                   Select a User Role
+                </div>
+                <group>
+                    <field name="user_role" widget="radio" options="{'horizontal': true}"/>
+                </group>
+            </xpath>
+
+            <xpath expr="//sheet/div[hasclass('oe_title')]" position="replace">
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1>
+                        <field name="name" placeholder="Full Name / Org Name" style="width: 50%%" required="1"/>
+                        <field name="admin_username" placeholder="Admin Username" style="width: 45%%; margin-left: 10px;"
+                               invisible="user_role != 'admin'" required="user_role == 'admin'"/>
+                        <field name="student_username" placeholder="Student Username" style="width: 45%%; margin-left: 10px;"
+                               invisible="user_role != 'student'" required="user_role == 'student'"/>
+                        <field name="professional_username" placeholder="Prof. Username" style="width: 45%%; margin-left: 10px;"
+                               invisible="user_role != 'professional'" required="user_role == 'professional'"/>
+                        <field name="ngo_username" placeholder="NGO Username" style="width: 45%%; margin-left: 10px;"
+                               invisible="user_role != 'ngo'" required="user_role == 'ngo'"/>
+                        <field name="donor_username" placeholder="Donor Username" style="width: 45%%; margin-left: 10px;"
+                               invisible="user_role != 'donor'" required="user_role == 'donor'"/>
+                        <field name="csr_username" placeholder="CSR Username" style="width: 45%%; margin-left: 10px;"
+                               invisible="user_role != 'csr'" required="user_role == 'csr'"/>
+                    </h1>
+                    <label for="login" class="oe_edit_only" string="System Login (Email)"
+                           invisible="user_role in ('student', 'professional', 'ngo', 'donor', 'csr', 'admin')"/>
+                    <h2>
+                        <field name="login" placeholder="email@example.com"
+                               invisible="user_role in ('student', 'professional', 'ngo', 'donor', 'csr', 'admin')"
+                               required="user_role not in ('student', 'professional', 'ngo', 'donor', 'csr', 'admin')"/>
+                    </h2>
+                </div>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="Social Profile">
+
+                    <div class="text-right">
+                        <field name="show_password" widget="boolean_toggle"/>
+                        <label for="show_password" string=" Show Passwords (Admin Only)"/>
+                    </div>
+                    <separator/>
+                    <div invisible="user_role!='admin'">
+                        <group>
+                            <group string="Account Access">
+                                <field name="admin_password" password="True" required="user_role == 'admin'"
+                                       invisible="show_password == True"/>
+                                <field name="confirm_password" password="True" required="user_role == 'admin'"
+                                       invisible="show_password == True"/>
+                                <field name="admin_password" required="user_role == 'admin'"
+                                       invisible="show_password == False"/>
+                                <field name="confirm_password" required="user_role == 'admin'"
+                                       invisible="show_password == False"/>
+                            </group>
+                            <group string="Contact Info">
+                                <field name ="admin_email" required="user_role == 'admin'"/>
+                                <field name ="admin_mobile_contact"/>
+                                <field name ="admin_gender"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <div invisible="user_role != 'student'">
+                        <group>
+                            <group string="Account Access">
+                                <field name="student_password" password="True" required="user_role == 'student'"
+                                       invisible="show_password == True"/>
+                                <field name="confirm_password" password="True" required="user_role == 'student'"
+                                       invisible="show_password == True"/>
+                                <field name="student_password" required="user_role == 'student'"
+                                       invisible="show_password == False"/>
+                                <field name="confirm_password" required="user_role == 'student'"
+                                       invisible="show_password == False"/>
+                            </group>
+                            <group string="Personal Info">
+                                <field name="dob" required="user_role == 'student'"/>
+                                <field name="age" readonly="1" force_save="1"/>
+                                <field name="gender" required="user_role == 'student'"/>
+                                <field name="mobile_contact" required="user_role == 'student'"/>
+                            </group>
+                        </group>
+                        <group string="Address Details">
+                             <div class="o_address_format">
+                                 <field name="street" placeholder="Street..." class="o_address_street" required="user_role == 'student'"/>
+                                 <field name="city" placeholder="City" class="o_address_city" required="user_role == 'student'"/>
+                                 <field name="district" placeholder="District" class="o_address_city" required="user_role == 'student'"/>
+                                 <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True}"/>
+                             </div>
+                        </group>
+                        <group>
+                            <group string="Academic Details">
+                                <field name="college_name" required="user_role == 'student'"/>
+                                <field name="course_department" required="user_role == 'student'"/>
+                                <field name="student_interests" required="user_role == 'student'"/>
+                            </group>
+                            <group string="Impact">
+                                <field name="willing_to_intern" widget="boolean_toggle"/>
+                                <field name="thematic_area" required="user_role == 'student'"/>
+                                <field name="sdg_goals" widget="many2many_tags" required="user_role == 'student'"/>
+                            </group>
+                        </group>
+                        <separator string="Descriptions"/>
+                        <field name="student_description" placeholder="Short description..." required="user_role == 'student'"/>
+                    </div>
+
+                    <div invisible="user_role != 'professional'">
+                        <group>
+                            <group string="Account Access">
+                                <field name="professional_password" password="True" required="user_role == 'professional'" invisible="show_password == True"/>
+                                <field name="confirm_password" password="True" required="user_role == 'professional'" invisible="show_password == True"/>
+                                <field name="professional_password" required="user_role == 'professional'" invisible="show_password == False"/>
+                                <field name="confirm_password" required="user_role == 'professional'" invisible="show_password == False"/>
+                            </group>
+                            <group string="Personal Info">
+                                <field name="dob" required="user_role == 'professional'"/>
+                                <field name="age" readonly="1" force_save="1"/>
+                                <field name="gender" required="user_role == 'professional'"/>
+                                <field name="professional_email" required="user_role == 'professional'"/>
+                                <field name="mobile_contact" required="user_role == 'professional'"/>
+                            </group>
+                        </group>
+                        <group string="Address Details">
+                             <div class="o_address_format">
+                                 <field name="street" placeholder="Street..." class="o_address_street"/>
+                                 <field name="city" placeholder="City" class="o_address_city"/>
+                                 <field name="district" placeholder="District" class="o_address_city"/>
+                                 <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True}"/>
+                             </div>
+                        </group>
+                        <group>
+                            <group string="Professional Details">
+                                <field name="qualification" required="user_role == 'professional'"/>
+                                <field name="expertise_area" required="user_role == 'professional'"/>
+                                <field name="experience_years" required="user_role == 'professional'"/>
+                            </group>
+                            <group>
+                                <field name="current_organization" required="user_role == 'professional'"/>
+                                <field name="designation" required="user_role == 'professional'"/>
+                            </group>
+                        </group>
+                        <group string="Impact &amp; Mentorship">
+                             <group>
+                                <field name="thematic_area" required="user_role == 'professional'"/>
+                                <field name="sdg_goals" widget="many2many_tags" required="user_role == 'professional'"/>
+                             </group>
+                             <group>
+                                <field name="mentor_willingness" widget="boolean_toggle"/>
+                             </group>
+                        </group>
+                        <separator string="Profile Description"/>
+                        <field name="professional_profile_description" placeholder="Describe your professional background..." required="user_role == 'professional'"/>
+                    </div>
+
+                    <div invisible="user_role != 'ngo'">
+                        <group>
+                            <group string="Account Access">
+                                <field name="ngo_password" password="True" required="user_role == 'ngo'" invisible="show_password == True"/>
+                                <field name="confirm_password" password="True" required="user_role == 'ngo'" invisible="show_password == True"/>
+                                <field name="ngo_password" required="user_role == 'ngo'" invisible="show_password == False"/>
+                                <field name="confirm_password" required="user_role == 'ngo'" invisible="show_password == False"/>
+                            </group>
+                            <group string="Organization Details">
+                                <field name="ngo_reg_number" required="user_role == 'ngo'"/>
+                                <field name="establishment_year" required="user_role == 'ngo'"/>
+                                <field name="ngo_website"/>
+                            </group>
+                        </group>
+                        <group string="Contact Details">
+                            <group>
+                                <field name="ngo_contact_person" required="user_role == 'ngo'"/>
+                                <field name="ngo_contact_email" required="user_role == 'ngo'"/>
+                                <field name="ngo_contact_mobile" required="user_role == 'ngo'"/>
+                            </group>
+                            <group>
+                                <label for="ngo_address" string="Address"/>
+                                <field name="ngo_address" required="user_role == 'ngo'"/>
+                            </group>
+                        </group>
+                        <group string="Impact &amp; Work">
+                             <group>
+                                <field name="ngo_focus_area_ids" widget="many2many_tags" required="user_role == 'ngo'"/>
+                             </group>
+                             <group>
+                                <field name="sdg_goals" widget="many2many_tags" required="user_role == 'ngo'"/>
+                             </group>
+                        </group>
+                        <separator string="Ongoing Projects"/>
+                        <field name="ongoing_projects" placeholder="Describe ongoing projects..." required="user_role == 'ngo'"/>
+                    </div>
+
+                    <div invisible="user_role != 'donor'">
+                        <group>
+                            <group string="Account Access">
+                                <field name="donor_password" password="True" required="user_role == 'donor'" invisible="show_password == True"/>
+                                <field name="confirm_password" password="True" required="user_role == 'donor'" invisible="show_password == True"/>
+                                <field name="donor_password" required="user_role == 'donor'" invisible="show_password == False"/>
+                                <field name="confirm_password" required="user_role == 'donor'" invisible="show_password == False"/>
+                            </group>
+                            <group string="Donor Details">
+                                <field name="donor_type" required="user_role == 'donor'"/>
+                                <field name="donor_email" required="user_role == 'donor'"/>
+                                <field name="donor_mobile" required="user_role == 'donor'"/>
+                            </group>
+                        </group>
+                        <group>
+                            <label for="donor_address" string="Address"/>
+                            <field name="donor_address" required="user_role == 'donor'"/>
+                        </group>
+                        <group string="Preferences">
+                            <group>
+                                <field name="donor_focus_area_ids" widget="many2many_tags" required="user_role == 'donor'"/>
+                                <field name="sdg_goals" widget="many2many_tags" required="user_role == 'donor'"/>
+                            </group>
+                            <group>
+                                <field name="donation_frequency" required="user_role == 'donor'"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <div invisible="user_role != 'csr'">
+                        <group>
+                            <group string="Account Access">
+                                <field name="csr_password" password="True" required="user_role == 'csr'" invisible="show_password == True"/>
+                                <field name="confirm_password" password="True" required="user_role == 'csr'" invisible="show_password == True"/>
+                                <field name="csr_password" required="user_role == 'csr'" invisible="show_password == False"/>
+                                <field name="confirm_password" required="user_role == 'csr'" invisible="show_password == False"/>
+                            </group>
+                            <group string="Company Details">
+                                <field name="cin_number" required="user_role == 'csr'"/>
+                                <field name="industry_type" required="user_role == 'csr'"/>
+                            </group>
+                        </group>
+                        <group string="CSR Contact">
+                             <group>
+                                 <field name="csr_contact_person" required="user_role == 'csr'"/>
+                                 <field name="csr_contact_email" required="user_role == 'csr'"/>
+                                 <field name="csr_contact_mobile" required="user_role == 'csr'"/>
+                             </group>
+                        </group>
+                        <group string="Budget &amp; Impact">
+                             <group>
+                                <field name="csr_budget" required="user_role == 'csr'"/>
+                                <field name="preferred_project_type" required="user_role == 'csr'"/>
+                             </group>
+                             <group>
+                                <field name="csr_focus_area_ids" widget="many2many_tags" required="user_role == 'csr'"/>
+                                <field name="sdg_goals" widget="many2many_tags" required="user_role == 'csr'"/>
+                             </group>
+                        </group>
+                    </div>
+
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_users_student" model="ir.actions.act_window">
+        <field name="name">Youth / Students</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_role', '=', 'student')]</field>
+        <field name="context">{'default_user_role': 'student'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('base.view_users_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_users_form')})]"/>
+    </record>
+
+    <record id="action_users_professional" model="ir.actions.act_window">
+        <field name="name">Professionals</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_role', '=', 'professional')]</field>
+        <field name="context">{'default_user_role': 'professional'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('base.view_users_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_users_form')})]"/>
+    </record>
+
+    <record id="action_users_ngo" model="ir.actions.act_window">
+        <field name="name">NGOs</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_role', '=', 'ngo')]</field>
+        <field name="context">{'default_user_role': 'ngo'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('base.view_users_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_users_form')})]"/>
+    </record>
+
+    <record id="action_users_donor" model="ir.actions.act_window">
+        <field name="name">Donors</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_role', '=', 'donor')]</field>
+        <field name="context">{'default_user_role': 'donor'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('base.view_users_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_users_form')})]"/>
+    </record>
+
+    <record id="action_users_csr" model="ir.actions.act_window">
+        <field name="name">CSR Partners</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_role', '=', 'csr')]</field>
+        <field name="context">{'default_user_role': 'csr'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('base.view_users_tree')}), (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_users_form')})]"/>
+    </record>
+
+    <record id="action_users_admin" model="ir.actions.act_window">
+        <field name="name">Admins</field>
+        <field name="res_model">res.users</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('user_role', '=', 'admin')]</field>
+        <field name="context">{'default_user_role': 'admin'}</field>
+    </record>
+
+</odoo>
