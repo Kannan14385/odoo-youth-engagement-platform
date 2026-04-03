@@ -74,9 +74,3 @@ Home page :
 
 ** ---
 
-## 🚀 How to Run Locally
-*Note: This repository contains the custom modules specifically developed for the Admin functionality. It requires a pre-existing Odoo 18 environment.*
-
-1. Clone this repository into your Odoo `addons` directory:
-   ```bash
-   git clone [https://github.com/Kannan14385/YOUR_REPO_NAME.git](https://github.com/Kannan14385/YOUR_REPO_NAME.git)
