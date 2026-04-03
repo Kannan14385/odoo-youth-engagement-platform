@@ -54,9 +54,25 @@ Because data integrity and trust are the foundation of philanthropic funding, th
 ---
 
 ## 📸 System Previews
-> **Note:** *Insert screenshots of your Odoo Admin Dashboard, List Views, and Approval Forms here to give viewers a visual understanding of your work.*
+> **Note:** *Admin Backend dashboard :
+<img width="1016" height="538" alt="image" src="https://github.com/user-attachments/assets/e7edbd94-981b-441b-9afc-3e309013e6d4" />
 
-*(Placeholder for Screenshot 1: Admin Dashboard)* *(Placeholder for Screenshot 2: Pending Approvals List View)* ---
+<img width="1015" height="421" alt="image" src="https://github.com/user-attachments/assets/310879fe-0c8b-46a5-908d-81a99e12a933" />
+
+Admin Frontend dashboard :
+
+<img width="1016" height="546" alt="image" src="https://github.com/user-attachments/assets/af5e8c03-7696-4644-8619-92314308b9e4" />
+
+Home page :
+
+<img width="1016" height="538" alt="image" src="https://github.com/user-attachments/assets/b54fe4a2-d294-45f4-a7ef-32677ea87fb5" />
+
+<img width="1016" height="354" alt="image" src="https://github.com/user-attachments/assets/448fe566-fcd3-4d2a-a8a8-27c24a3cd5df" />
+
+<img width="1016" height="405" alt="image" src="https://github.com/user-attachments/assets/2e68ef4a-effa-4e7d-9b99-1b3324433f11" />
+*
+
+** ---
 
 ## 🚀 How to Run Locally
 *Note: This repository contains the custom modules specifically developed for the Admin functionality. It requires a pre-existing Odoo 18 environment.*
